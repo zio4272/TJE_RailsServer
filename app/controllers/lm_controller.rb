@@ -156,7 +156,17 @@ class LmController < ApplicationController
   def all_absent
     absent = Absent.all()
 
-    resultJson = {"result" => TRUE, "message" => "get list ok", "absent" => absent, }
+    absArr = Array.new
+
+    absent.each do |x|
+      abs = x.as_json
+      abs["student"] =  x.student
+
+      absArr << abs
+
+    end
+
+    resultJson = {"result" => TRUE, "message" => "get list ok", "absent" => absArr }
     render json: resultJson
 
   end
