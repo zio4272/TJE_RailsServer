@@ -147,8 +147,16 @@ class LmController < ApplicationController
     ab.lecture_id = params[:lecture_id]
     ab.save
 
-    myJson = {"result" => TRUE,  "message" => "게시글 등록완료", "absent" => ab, "student" => ab.student}
+    myJson = {"result" => TRUE,  "message" => "게시글 등록완료", "absent" => ab}
     render json: myJson
+
+  end
+
+
+  def all_absent
+    absent = Absent.all()
+    resultJson = {"result" => TRUE, "message" => "get list ok", "absent" => absent}
+    render json: resultJson
 
   end
 
