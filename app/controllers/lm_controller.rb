@@ -26,6 +26,36 @@ class LmController < ApplicationController
 
     end
 
+    def login
+      # 로그인? 클라이언트가 요청하는
+      # 아이디/비밀번호가 우리의 회원 장부에 있는지 검사.
+
+      # 아이디와 비밀번호가 모두 일치하는 학생[Student]이 있는가? 검색
+      if Student.where(loginId: params[:id], loginPw: params[:pw]).exists?
+        # 아이디와 비번 모두 일치하는 학생이 존재.
+        # 우리의 회원이 맞으므로 => 로그인에 성공.
+        # 로그인에 성공했음을 앱한테 전파.
+        # 앱에다 메세지를 날리는건? JSON 만들어서 render json:
+
+        # 로그인에 성공하면 해당 학생의 정보를 첨부
+        # 검색 결과중 첫번째 학생이 해당 학생이라고 가정.
+        std = Student.where(loginId: params[:id], loginPw: params[:pw]).first
+
+        #결과 JSON에 항목 추가.
+        # Student => std 객체
+
+        resultJson = {"result" => TRUE, "message" => "login ok!", "Student" => std}
+        render json: resultJson
+      else
+        # 존재하지 않는다. => 회원이 아니다. => 로그인 실패.
+        resultJson = {"result" => FALSE, "message" => "login failed!"}
+        render json: resultJson
+      end
+
+
+
+    end
+
     def sign_up
       st = Student.new
       st.loginId = params[:login_id]
