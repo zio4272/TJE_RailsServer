@@ -1,0 +1,2 @@
+class StdLec < ApplicationRecord
+end
